@@ -9,18 +9,19 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<url>http://www.spout.org</url>
 	<inceptionYear>2013</inceptionYear>
-	<description>DropletPlayerData is an example plugin that replaces the default player.dat file save system with an embedded H2 database.</description>
+	<description>Player data storage "Droplet" plugin for the Spout platform to demonstrate the usage of player.dat replacement with H2.</description>
 
 	<!-- Build properties -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<currentYear>2013</currentYear>
+		<buildNumber>0</buildNumber><!-- DO NOT TOUCH! -->
+		<platform>SERVER</platform><!-- CLIENT/SERVER/BOTH -->
+		<reload>true</reload><!-- true/false -->
 		<spoutVersion>dev-SNAPSHOT</spoutVersion>
 		<vanillaVersion>1.4.7-SNAPSHOT</vanillaVersion>
-		<buildNumber>0</buildNumber>
 	</properties>
 
-	<!-- Company information -->
+	<!-- Organization information -->
 	<organization>
 		<name>Spout LLC</name>
 		<url>http://www.spout.org</url>
@@ -30,28 +31,28 @@
 	<licenses>
 		<license>
 			<name>MIT License</name>
-			<url>http://cdn.spout.org/license/mit.txt</url>
+			<url>http://spout.in/mit</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
 
 	<!-- Source code access -->
 	<scm>
-		<developerConnection>scm:git:git@github.com:Droplets/DropletLift.git</developerConnection>
-		<connection>scm:git:git://github.com/Droplets/DropletLift.git</connection>
-		<url>https://github.com/Droplets/DropletLift</url>
+		<developerConnection>scm:git:git@github.com:Droplets/DropletPlayerData.git</developerConnection>
+		<connection>scm:git:git://github.com/Droplets/DropletPlayerData.git</connection>
+		<url>https://github.com/Droplets/DropletPlayerData</url>
 	</scm>
 
 	<!-- Build server -->
 	<ciManagement>
 		<system>jenkins</system>
-		<url>http://build.spout.org/job/DropletLift</url>
+		<url>http://build.spout.org/job/DropletPlayerData</url>
 	</ciManagement>
 
 	<!-- Issue tracker -->
 	<issueManagement>
 		<system>jira</system>
-		<url>http://issues.spout.org/browse/Droplet</url>
+		<url>http://issues.spout.org/browse/DROPLET</url>
 	</issueManagement>
 
 	<!-- Dependency repositories -->
@@ -76,18 +77,19 @@
 
 	<!-- Project dependencies -->
 	<dependencies>
+		<!-- Included in final jar -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.3.170</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- Provided by third-party -->
 		<dependency>
 			<groupId>org.spout</groupId>
 			<artifactId>spoutapi</artifactId>
 			<version>${spoutVersion}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.3.170</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spout</groupId>
@@ -101,20 +103,22 @@
 	<build>
 		<defaultGoal>clean package</defaultGoal>
 
-		<!-- Static resources -->
+		<!-- Resources to include -->
 		<resources>
+			<!-- Static resources -->
 			<resource>
-				<targetPath>.</targetPath>
 				<filtering>false</filtering>
-				<directory>${basedir}</directory>
+				<directory>${project.basedir}</directory>
+				<targetPath>.</targetPath>
 				<includes>
 					<include>LICENSE.txt</include>
 				</includes>
 			</resource>
+			<!-- Filtered resources -->
 			<resource>
-				<targetPath>.</targetPath>
 				<filtering>true</filtering>
-				<directory>${basedir}/src/main/resources</directory>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<targetPath>.</targetPath>
 				<includes>
 					<include>*.yml</include>
 				</includes>
@@ -134,7 +138,8 @@
 							<properties>
 								<name>${project.name}</name>
 								<url>${project.organization.url}</url>
-								<copyright>Copyright (c) ${currentYear}, ${project.organization.name}</copyright>
+								<inceptionYear>${project.inceptionYear}</inceptionYear>
+								<organization>${project.organization.name}</organization>
 							</properties>
 							<quiet>true</quiet>
 							<encoding>UTF-8</encoding>
@@ -159,29 +164,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Release version plugin -->
-			<plugin>
-				<groupId>com.sourcesense.maven</groupId>
-				<artifactId>maven-nosnapshot-plugin</artifactId>
-				<version>0.0.7</version>
-				<executions>
-					<execution>
-						<configuration>
-							<version>${project.version}</version>
-							<propertyName>releaseVersion</propertyName>
-						</configuration>
-						<phase>initialize</phase>
-						<goals>
-							<goal>strip</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<!-- Source compiler plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.0</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -193,52 +180,6 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
-			<!-- Dependency addition plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.0</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
-
-		<!-- Plugin management -->
-		<pluginManagement>
-			<plugins>
-				<!-- Eclipse exclusions -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>com.sourcesense.maven</groupId>
-										<artifactId>maven-nosnapshot-plugin</artifactId>
-										<versionRange>[0.0.7,)</versionRange>
-										<goals>
-											<goal>strip</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore/>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-
 </project>

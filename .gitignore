@@ -32,20 +32,20 @@ target
 *.sql
 *.sqlite
 
-# OS generated files #
-######################
+# OS generated #
+################
 .DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
 
-# Build files #
-#################
+# Build #
+#########
 MANIFEST.MF
 dependency-reduced-pom.xml
 
-# Project files #
-#################
+# Project #
+###########
 .classpath
 .externalToolBuilders
 .idea
@@ -61,12 +61,12 @@ nb-configuration.xml
 *.ipr
 *.iws
 
-# Misc files #
-##############
+# Misc #
+########
 *.bak
 
-# Spout runtime folders #
-#########################
+# Spout #
+#########
 /cache
 /config
 /data
