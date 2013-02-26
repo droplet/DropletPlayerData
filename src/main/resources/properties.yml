@@ -1,0 +1,7 @@
+name: DropletPlayerData
+version: ${releaseVersion} b${buildNumber}
+description: DropletPlayerData is an example plugin that replaces the default player.dat file save system with an embedded H2 database
+author: Spout LLC
+website: http://www.spout.org
+main: org.spout.droplet.playerdata.DropletPlayerData
+platform: SERVER
