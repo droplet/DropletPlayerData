@@ -53,7 +53,7 @@ import org.spout.api.geo.discrete.Point;
 import org.spout.api.geo.discrete.Transform;
 import org.spout.api.math.Quaternion;
 import org.spout.api.math.Vector3;
-import org.spout.api.plugin.CommonClassLoader;
+import org.spout.api.plugin.PluginClassLoader;
 
 public class DataEventListener implements Listener {
 	private DropletPlayerData plugin;
@@ -224,7 +224,7 @@ public class DataEventListener implements Listener {
 				for (String component : components.split(",")) {
 					try {
 						try {
-							Class<? extends Component> clazz = (Class<? extends Component>) CommonClassLoader.findPluginClass(component);
+							Class<? extends Component> clazz = (Class<? extends Component>) PluginClassLoader.findPluginClass(component);
 							types.add(clazz);
 						} catch (ClassNotFoundException e) {
 							Class<? extends Component> clazz = (Class<? extends Component>) Class.forName(component);

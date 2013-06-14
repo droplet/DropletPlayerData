@@ -29,11 +29,10 @@ import java.util.regex.Pattern;
 
 import org.h2.jdbcx.JdbcConnectionPool;
 
-import org.spout.api.plugin.CommonPlugin;
-
+import org.spout.api.plugin.Plugin;
 import org.spout.droplet.playerdata.configuration.DatabaseConfiguration;
 
-public class DropletPlayerData extends CommonPlugin {
+public class DropletPlayerData extends Plugin {
 	private DatabaseConfiguration config;
 	private JdbcConnectionPool pool;
 
