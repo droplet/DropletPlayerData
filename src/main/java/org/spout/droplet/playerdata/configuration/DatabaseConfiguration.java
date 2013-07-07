@@ -27,10 +27,10 @@ import java.io.File;
 import java.util.logging.Level;
 
 import org.spout.api.Spout;
-import org.spout.api.exception.ConfigurationException;
-import org.spout.api.util.config.ConfigurationHolderConfiguration;
-import org.spout.api.util.config.yaml.YamlConfiguration;
-import org.spout.api.util.config.ConfigurationHolder;
+import org.spout.cereal.config.ConfigurationException;
+import org.spout.cereal.config.ConfigurationHolder;
+import org.spout.cereal.config.ConfigurationHolderConfiguration;
+import org.spout.cereal.config.yaml.YamlConfiguration;
 
 public class DatabaseConfiguration extends ConfigurationHolderConfiguration {
 	public static final ConfigurationHolder CONNECTION_STRING = new ConfigurationHolder("jdbc:h2:${plugin_data_dir}/player_data", "database", "connection-url");
